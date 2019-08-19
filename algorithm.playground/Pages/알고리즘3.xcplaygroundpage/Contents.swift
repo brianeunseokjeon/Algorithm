@@ -57,6 +57,7 @@ let a = [
     [1,1,1,1]
 ]
 
+// 미로 길찾기 문제..4*4
 
 func maze(arr:[[Int]]) -> [[Int]] {
     var b = arr
