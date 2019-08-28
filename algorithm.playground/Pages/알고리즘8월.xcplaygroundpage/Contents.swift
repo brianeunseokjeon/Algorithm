@@ -65,9 +65,8 @@ func solution(_ progresses:[Int], _ speeds:[Int]) -> [Int] {
 }
 
 
-solution([93,30,55], [1,30,5])
+//solution([93,30,55], [1,30,5])
 //첫번째가 리턴되는 경우? 첫번째 두번째......?
-[7,2,0,0,3]
 
 
 // 8월 18(일)
@@ -100,38 +99,23 @@ solution([93,30,55], [1,30,5])
 //예제 #2
 //
 //6개의 문서(A, B, C, D, E, F)가 인쇄 대기목록에 있고 중요도가 1 1 9 1 1 1 이므로 C D E F A B 순으로 인쇄합니다.
-1%5
--2%5+5
 
 
-var count = 1
-var h = [3,4,9,1,1]
-//h.remove(at: 2)
-//h
-h.remove(at: 2)
-h.insert(2, at: 2)
-count = h[4]
-h.remove(at: 4)
-h.append(count)
-for x in h {
-    if x == count {
-        print(1)
-    }
-}
-
-
-func sol0818(_ priorities:[Int], _ location:Int) -> Int {
+func sol0819(_ priorities:[Int], _ location:Int) -> Int {
     var sort = priorities
-    var dropCount = location
-//    let a = priorities[location]
-//    sort.remove(at: location)
-//    sort.insert(a, at: location)
-//    var locationIndex = location
+    var tempSort = priorities
+    var locationAndElement: [(Int,Int)] = []
+    var count = 0
+    var maxTemp = 0
+    for (offset,element) in priorities.enumerated() {
+        locationAndElement.append((offset,element))
+    }
     
-    
+    tempSort.sort(by: >)
     
     func sorting(index:Int) -> [Int] {
-       var maxTemp = 0
+       maxTemp = 0
+       var tuple = (0,0)
         for x in sort[index...sort.count-1] {
             if x > maxTemp {
                 maxTemp = x
@@ -143,24 +127,32 @@ func sol0818(_ priorities:[Int], _ location:Int) -> Int {
             let temp = sort[index]
             sort.remove(at: index)
             sort.append(temp)
+            tuple = locationAndElement[index]
+            locationAndElement.remove(at: index)
+            locationAndElement.append(tuple)
             return sort
         }
     }
-  
+    
     for _ in 0...sort.count-1 {
         print("sort1 :",sort)
         while sort != sorting(index: 0) {
             print("sort2 :",sort)
         }
-        sort.remove(at: 0)
-        dropCount += 1
+    
+        if maxTemp == sort[0] {
+             count += 1
+            if locationAndElement[0].0 == location {
+                return count
+            }
+            sort.remove(at: 0)
+            locationAndElement.remove(at: 0)
+            
+        }
     }
-    
-    
-    
-    return dropCount
+    return count
 }
-sol0818([3,4,9,1,2], 0)
+//sol0819([1,1,9,1,1,1], 3)
 
 
 // 1: 1 9 1 1 -> 1 9 1 1 1: -> 9 1 1 1: 1 -> 1 1 1: 1
@@ -170,7 +162,7 @@ sol0818([3,4,9,1,2], 0)
 
 
 // 정답지?
-func helpSolution0818(_ priorities:[Int], _ location:Int) -> Int {
+func helpSolution0819(_ priorities:[Int], _ location:Int) -> Int {
     var queue: [(Int,Int)] = []
     var priorityQueoue: [Int] = []
     
@@ -215,4 +207,82 @@ func helpSolution0818(_ priorities:[Int], _ location:Int) -> Int {
     return count
 }
 
-helpSolution0818([2,3,9,1,1,1], 0)
+//helpSolution0819([2,3,9,1,1,1], 0)
+
+func otherSolution0819(_ priorities:[Int], _ location:Int) -> Int {
+    var cPriorities = priorities
+    var targetIndex = location
+    var seq = 0
+    
+    while cPriorities.count > 0 {
+        if cPriorities.contains(where: { $0 > cPriorities[0] }) {
+            let first = cPriorities.removeFirst()
+            cPriorities.append(first)
+            targetIndex = targetIndex - 1 < 0 ? cPriorities.count - 1 : targetIndex - 1
+        } else {
+            if(targetIndex == 0) {
+                return priorities.count - cPriorities.count + 1
+            }
+            
+            cPriorities.removeFirst()
+            targetIndex = targetIndex - 1
+        }
+    }
+    
+    return 0
+}
+
+
+// 8월 20일
+//0 또는 양의 정수가 주어졌을 때, 정수를 이어 붙여 만들 수 있는 가장 큰 수를 알아내 주세요.
+//
+//예를 들어, 주어진 정수가 [6, 10, 2]라면 [6102, 6210, 1062, 1026, 2610, 2106]를 만들 수 있고, 이중 가장 큰 수는 6210입니다.
+//
+//0 또는 양의 정수가 담긴 배열 numbers가 매개변수로 주어질 때, 순서를 재배치하여 만들 수 있는 가장 큰 수를 문자열로 바꾸어 return 하도록 solution 함수를 작성해주세요.
+var h = ["13","61","81"]
+var count = 3
+h.max()
+
+h.shuffled()
+h
+func factorial(number:Int) -> Int {
+    var result = 1
+    for x in 1...number {
+        result *= x
+    }
+    return result
+}
+
+var c = [30,90,3]
+c.sorted {
+    print("left :","\($0)\($1)","right :","\($1)\($0)")
+   return Int("\($0)\($1)")! > Int("\($1)\($0)")!
+}
+
+
+// 답지보고..해결.. 힌트는 솔트에서 옆에있는수를 합친걸 크기비교.. 덧셈이아니라 합치는것.. 스트링으로 합치고 인트로 크기비교 ㅠㅠ 처음 스트링으로 바꾼후 크기순으로 정렬해봤는데.. 30 과 3에서 30이 3 보다 더 큰걸로 나와서... 오류.. 303이 330보다 작음.. ㅠㅠ
+func solution0820(_ numbers:[Int]) -> String {
+    var temp = ""
+    let sortedNumbers = numbers
+        .sorted {
+        Int("\($0)\($1)")! > Int("\($1)\($0)")!
+        }
+    sortedNumbers.forEach { (num) in
+        temp += "\(num)"
+        }
+    return temp.first == "0" ? "0" : temp
+}
+
+solution0820([0,0,0])
+
+
+
+
+//func solution(_ numbers: [Int]) -> String {
+//    let sortedNumbers = numbers.sorted {
+//        Int("\($0)\($1)")! > Int("\($1)\($0)")!
+//    }
+//
+//    let answer = sortedNumbers.map { String($0) }.reduce("") { $0 + $1 }
+//    return sortedNumbers.first == 0 ? "0" : answer
+//}

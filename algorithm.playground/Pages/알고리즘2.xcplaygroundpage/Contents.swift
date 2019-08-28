@@ -99,8 +99,7 @@ func algo(num:Int) -> Int {
 //skill_trees의 원소는 스킬을 나타내는 문자열입니다.
 //skill_trees의 원소는 길이가 2 이상 26 이하인 문자열이며, 스킬이 중복해 주어지지 않습니다.
 //입출력 예
-//skill    skill_trees    return
-//    CBD    [BACDE, CBADF, AECB, BDA]    2
+
 //입출력 예 설명
 //BACDE: B 스킬을 배우기 전에 C 스킬을 먼저 배워야 합니다. 불가능한 스킬트립니다.
 //CBADF: 가능한 스킬트리입니다.
