@@ -3,12 +3,13 @@ import Foundation
 
 
 
-var h = [1,2,3,4]
+var h = [(count: Int, word: String)]()
+h.append(((count: 31, word: "1")))
+h.append(((count: 5, word: "17")))
+h.append(((count: 7, word: "1777")))
+h.append((3,"a"))
 
-
-
-
-func filterAndSort(input: String, fromArray: [String]) -> [String] {
+func filterAndSort(startingWith input: String, fromArray: [String]) -> [String] {
     
     let lowerCasedArray = fromArray.map { $0.lowercased() }
     
@@ -20,6 +21,7 @@ func filterAndSort(input: String, fromArray: [String]) -> [String] {
     
     filteredArray.forEach { (word) in
         print(word)
+       
         if !countedArray.contains(where: { return word == $0.word }) {
             let wordCount = filteredArray.filter { $0 == word }.count
             countedArray.append((wordCount, word))
@@ -28,8 +30,7 @@ func filterAndSort(input: String, fromArray: [String]) -> [String] {
     
     return countedArray.sorted { $0.count >= $1.count }.map { $0.word }
 }
-filterAndSort(input: "wa", fromArray: ["wadizian", "wadiz", "wadiz", "reward", "equity"])
-
+filterAndSort(startingWith: "wa", fromArray: ["wadizian", "wadiz", "wadiz", "reward", "equity"])
 
 
 
@@ -44,6 +45,9 @@ extension Character {
         }
     }
 }
+
+
+
 
 extension Array where Element == Character {
     func flip(fromIndex: Int, toIndex: Int) -> [Element] {
@@ -67,6 +71,7 @@ func createString(withSubstring: Substring, number: Int) -> String {
     }
     return result
 }
+
 
 func checkIfCoinsCanBeFlipedToFaceHead(input: String, numberOfCoinsToFlip: Int) -> Int? {
     /// Condition: flip coinds to make coin face HEAD
