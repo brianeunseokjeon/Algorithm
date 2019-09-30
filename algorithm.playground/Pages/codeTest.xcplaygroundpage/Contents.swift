@@ -97,3 +97,17 @@ reverseBinary(num: 148)
 // write a function that accepts a string and returns true if it contains only numbers.
 // 01010101 >> true
 // 숫자면 >> true // 아니면 false
+
+
+// 챌린지 23 스트링값으로 인트 들어가면 true , 그외는 false
+
+
+func stringToInt(_ InputString:String) -> Bool {
+    
+    if Int(InputString) != nil {
+        return true
+    } else {
+       return false
+    }
+}
+
