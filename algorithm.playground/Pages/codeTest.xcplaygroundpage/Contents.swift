@@ -111,3 +111,111 @@ func stringToInt(_ InputString:String) -> Bool {
     }
 }
 
+
+"""
+어떤걸 찾는거냐면 두수를 곱했을 때 원래수보다 일단 작아야되 같으면 답..
+근데 하나 더하면 커야되.   그러면 작은수가 답.
+
+먼저 나누기 2를 먼저해 그러면 4겠지? 4를 제곱했더니 16 크니깐
+4를 나눠서 2에서 시작. 2를 제곱했더니 4 그런데 크네? 그러니깐
+2에서 하나 커짐. 3
+3제곱했네? 같음 그러면 끝!
+
+16역시 나누기 2 8제곱 은 크네
+그래서 나누기 2 했더니 4
+제곱했더니 맞네 오케이
+
+"""
+// Challenge 25 :Calculate a square root by hand
+func squareRoot(input: Int) -> Int {
+    var result = input / 2
+    var resultPlusOne = result + 1
+    
+    while !(result * result < input) || !(resultPlusOne * resultPlusOne > input) {
+        guard result * result != input else { return result}
+        guard resultPlusOne * resultPlusOne != input else {return resultPlusOne}
+        if result * result > input {
+            result /= 2
+            resultPlusOne = result + 1
+        } else {
+            result += 1
+            resultPlusOne = result + 1
+        }
+    }
+    
+
+    return result
+}
+
+//squareRoot(input: 16777216)
+
+
+
+
+// 11/ 22 종이접기문제
+
+
+func solution1122(_ n:Int) -> [Int] {
+    var result: [Int] = []
+    var tempResult: [Int] = []
+    
+    func reverseAndflip(array: [Int]) -> [Int] {
+        var temp: [Int] = []
+        for x in array.reversed() {
+            if x == 0 {
+                temp.append(1)
+            } else {
+                temp.append(0)
+            }
+        }
+        return temp
+    }
+    for _ in 1...n {
+        tempResult = result
+        result.append(0)
+        result += reverseAndflip(array: tempResult)
+    }
+    return result
+}
+
+solution1122(3)
+
+//
+//func solution(_ n:Int) -> [Int] {
+//    guard n >= 1 else {return []}
+//    var paper:[Bool] = [false]
+//    guard n >= 2 else {return [0]}
+//    for _ in 2...n {
+//
+//        let right = paper.map {!$0}.reversed()
+//        paper.append(false)
+//        paper += right
+//    }
+//
+//    return paper.filterMapToArray { (value) -> Int in
+//        return value ? 1 : 0
+//    }
+//
+//}
+//extension Array {
+//    func filterMapToArray<T>(_ fnc:(_:Element)->T) -> [T] {
+//        var result:[T] = [T]()
+//        for i in self {
+//            result.append(fnc(i))
+//        }
+//        return result
+//    }
+//}
+
+
+//func solution(_ n:Int) -> [Int] {
+//    var answer = [false]
+//    for _ in 1 ..< n {
+//        var newArray = [false]
+//        let reversed = answer.reversed().map { $0 ? false : true }
+//        newArray = newArray + reversed
+//        newArray = answer + newArray
+//        answer = newArray
+//    }
+//    return answer.map { $0 ? 1 : 0 }
+//}
